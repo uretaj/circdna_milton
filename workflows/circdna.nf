@@ -294,7 +294,6 @@ workflow CIRCDNA {
             )
             ch_versions         = ch_versions.mix(SAMTOOLS_SORT_BAM.out.versions)
             ch_bam_sorted       = SAMTOOLS_SORT_BAM.out.bam
-            ch_cnv              = INPUT_CHECK.out.reads
         } else {
             ch_bam_sorted       = INPUT_CHECK.out.reads
             ch_full_bam_sorted  = INPUT_CHECK.out.reads
@@ -394,8 +393,8 @@ workflow CIRCDNA {
 
     if (run_ampliconarchitect) {
         AMPLICONSUITE (
-            ch_bam_sorted,
-            INPUT_CHECK.out.read.map { it[1] },
+            ch_bam_sorted,            
+            INPUT_CHECK.out.reads.map { it[1] },
             file(params.mosek_license_dir),
             file(params.aa_data_repo)
         )
