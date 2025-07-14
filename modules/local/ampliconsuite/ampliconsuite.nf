@@ -6,6 +6,7 @@ process AMPLICONSUITE {
     container 'nf-core/prepareaa:1.0.5'
 
     input:
+    tuple val(meta), path(bam_sorted), path(cnv)
     tuple val(meta), path(bam), path(cnv)
     path(mosek_license_dir)
     path(aa_data_repo)
@@ -45,7 +46,7 @@ process AMPLICONSUITE {
         $args \\
         -s $prefix \\
         -t $task.cpus \\
-        --bam $bam \\
+        --bam $bam_sorted \\
         --ref $ref \\
         --cnv_bed $cnv \\
         --run_AA --run_AC \\
