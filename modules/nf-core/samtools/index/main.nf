@@ -24,8 +24,7 @@ process SAMTOOLS_INDEX {
     """
     samtools \\
         index \\
-        -@ ${task.cpus-1} \\
-        $args \\
+        -@ ${task.cpus-1} $args \\
         $input
 
     cat <<-END_VERSIONS > versions.yml

@@ -3,10 +3,7 @@ process PICARD_MARKDUPLICATES {
     label 'process_medium'
 
     conda "${moduleDir}/environment.yml"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/picard:3.1.1--hdfd78af_0' :
-        'biocontainers/picard:3.1.1--hdfd78af_0' }"
-
+  
     input:
     tuple val(meta), path(bam)
     tuple val(meta2), path(fasta)
@@ -34,10 +31,8 @@ process PICARD_MARKDUPLICATES {
     if ("$bam" == "${prefix}.bam") error "Input and output names are the same, use \"task.ext.prefix\" to disambiguate!"
 
     """
-    picard \\
-        -Xmx${avail_mem}M \\
-        MarkDuplicates \\
-        $args \\
+  
+    java -Xmx${avail_mem}M -jar /usr/local/share/picard-3.1.1-0/picard.jar MarkDuplicates $args \\
         --INPUT $bam \\
         --OUTPUT ${prefix}.bam \\
         --REFERENCE_SEQUENCE $fasta \\
