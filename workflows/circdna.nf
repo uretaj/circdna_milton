@@ -394,6 +394,7 @@ workflow CIRCDNA {
     if (run_ampliconarchitect) {
         AMPLICONSUITE (
             ch_bam_sorted,
+            ch_seed_regions,
             file(params.mosek_license_dir),
             file(params.aa_data_repo)
         )
