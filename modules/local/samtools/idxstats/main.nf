@@ -8,7 +8,7 @@ process SAMTOOLS_IDXSTATS {
         'quay.io/biocontainers/samtools:1.16.1--h6899075_1' }"
 
     input:
-    tuple val(meta), path(bam), path(bai)
+    tuple val(meta), path(bam), path(cnv), path(bai)
 
     output:
     tuple val(meta), path("*.idxstats"), emit: idxstats
