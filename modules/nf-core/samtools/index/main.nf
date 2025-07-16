@@ -8,7 +8,7 @@ process SAMTOOLS_INDEX {
         'biocontainers/samtools:1.18--h50ea8bc_1' }"
 
     input:
-    tuple val(meta), path(input)
+    tuple val(meta), path(input),  path(cnv)
 
     output:
     tuple val(meta), path("*.bai") , optional:true, emit: bai
