@@ -257,7 +257,7 @@ workflow CIRCDNA {
             BWA_INDEX (
                 ch_fasta_meta
             )
-            ch_bwa_index = BWA_INDEX.out.index.dump(label: 'DEBUG BEFORE BAD OP')
+            ch_bwa_index = BWA_INDEX.out.index.
                         .map{ meta, index -> ["bwa_index", index] }.collect()
             ch_versions = ch_versions.mix(BWA_INDEX.out.versions)
         }
@@ -327,7 +327,7 @@ workflow CIRCDNA {
         if (!workflow.stubRun) {
             BAM_STATS_SAMTOOLS (
                 ch_bam_sorted.join(ch_bam_sorted_bai).
-                    map { (meta, bam), cnv, bai -> [meta, bam, cnv, bai] },
+                    map { (meta, bam, cnv), bai -> [meta, bam, bai] },
                     ch_fasta_meta
             )
             ch_versions = ch_versions.mix(BAM_STATS_SAMTOOLS.out.versions)
