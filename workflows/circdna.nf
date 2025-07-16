@@ -325,7 +325,7 @@ workflow CIRCDNA {
 
         // Stub run is not yet implemented into BAM_STATS_SAMTOOLS subworkflow -> Will be skipped when stub is active
         
-        /*
+        
         if (!workflow.stubRun) {
             BAM_STATS_SAMTOOLS (
                 ch_bam_sorted.join(ch_bam_sorted_bai).
@@ -336,7 +336,7 @@ workflow CIRCDNA {
             ch_samtools_stats               = BAM_STATS_SAMTOOLS.out.stats
             ch_samtools_flagstat            = BAM_STATS_SAMTOOLS.out.flagstat
             ch_samtools_idxstats            = BAM_STATS_SAMTOOLS.out.idxstats
-        }*/
+        }
 
         // PICARD MARK_DUPLICATES
         if (!params.skip_markduplicates) {
