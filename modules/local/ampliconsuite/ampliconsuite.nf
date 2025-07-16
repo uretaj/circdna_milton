@@ -45,7 +45,7 @@ process AMPLICONSUITE {
         $args \\
         -s $prefix \\
         -t $task.cpus \\
-        --bam $bam_sorted \\
+        --bam $bam \\
         --ref $ref \\
         --cnv_bed $cnv \\
         --run_AA --run_AC \\
