@@ -327,7 +327,12 @@ workflow CIRCDNA {
         if (!workflow.stubRun) {
             BAM_STATS_SAMTOOLS (
                 ch_bam_sorted.join(ch_bam_sorted_bai).
-                    map { (meta, bam, cnv), bai -> [meta, bam, cnv, bai] },
+                    map { nested, bai ->
+                        def (meta, bam, cnv) = nested
+                        [meta, bam, cnv, bai]
+                    },
+                        
+                        //(meta, bam, cnv), bai -> [meta, bam, cnv, bai] },
                     ch_fasta_meta
             )
             ch_versions = ch_versions.mix(BAM_STATS_SAMTOOLS.out.versions)
