@@ -42,7 +42,6 @@ process AMPLICONSUITE {
     REF=${params.reference_build}
 
     AmpliconSuite-pipeline.py \\
-        $args \\
         -s $prefix \\
         -t $task.cpus \\
         --bam $bam \\
@@ -51,7 +50,6 @@ process AMPLICONSUITE {
         --run_AA --run_AC 
 
     # Move Files to base work directory
-    find ${prefix}_cnvkit_output/ -type f -print0 | xargs -0 mv -t ./
     find ${prefix}_AA_results/ -type f -print0 | xargs -0 mv -t ./
     find ${prefix}_classification/ -type f -print0 | xargs -0 mv -t ./
 
