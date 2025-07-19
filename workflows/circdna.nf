@@ -384,8 +384,8 @@ workflow CIRCDNA {
                 ch_versions = ch_versions.mix(SAMTOOLS_INDEX_FILTERED.out.versions)
             }
             else {
-                ch_bam_sorted               = BAM_MARKDUPLICATES_PICARD.out.bam
-                ch_bam_sorted_bai           = BAM_MARKDUPLICATES_PICARD.out.bai
+                //ch_bam_sorted               = BAM_MARKDUPLICATES_PICARD.out.bam
+                //ch_bam_sorted_bai           = BAM_MARKDUPLICATES_PICARD.out.bai
                 //ch_markduplicates_stats     = BAM_MARKDUPLICATES_PICARD.out.stats
                 //ch_markduplicates_flagstat  = BAM_MARKDUPLICATES_PICARD.out.flagstat
                 //ch_markduplicates_idxstats  = BAM_MARKDUPLICATES_PICARD.out.idxstats
