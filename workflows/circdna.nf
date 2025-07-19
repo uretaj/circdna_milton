@@ -348,11 +348,13 @@ workflow CIRCDNA {
             )
 
             // MARK DUPLICATES IN BAM FILE
+            /*
             BAM_MARKDUPLICATES_PICARD (
                 ch_bam_sorted,
                 ch_fasta_meta,
                 SAMTOOLS_FAIDX.out.fai.collect()
             )
+            */
 
             // FILTER DUPLICATES IN BAM FILES USING SAMTOOLS VIEW
             if (!params.keep_duplicates) {
@@ -363,7 +365,7 @@ workflow CIRCDNA {
                     []
                 )
                 ch_versions = ch_versions.mix(SAMTOOLS_VIEW_FILTER.out.versions)
-                */
+                
                 // SORT FILTERED BAM FILE
                /*
                 SAMTOOLS_SORT_FILTERED (
