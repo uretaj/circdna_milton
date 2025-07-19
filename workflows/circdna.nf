@@ -381,11 +381,11 @@ workflow CIRCDNA {
             else {
                 ch_bam_sorted               = BAM_MARKDUPLICATES_PICARD.out.bam
                 ch_bam_sorted_bai           = BAM_MARKDUPLICATES_PICARD.out.bai
-                ch_markduplicates_stats     = BAM_MARKDUPLICATES_PICARD.out.stats
-                ch_markduplicates_flagstat  = BAM_MARKDUPLICATES_PICARD.out.flagstat
-                ch_markduplicates_idxstats  = BAM_MARKDUPLICATES_PICARD.out.idxstats
-                ch_markduplicates_multiqc   = BAM_MARKDUPLICATES_PICARD.out.metrics
-                ch_versions = ch_versions.mix(BAM_MARKDUPLICATES_PICARD.out.versions)
+                //ch_markduplicates_stats     = BAM_MARKDUPLICATES_PICARD.out.stats
+                //ch_markduplicates_flagstat  = BAM_MARKDUPLICATES_PICARD.out.flagstat
+                //ch_markduplicates_idxstats  = BAM_MARKDUPLICATES_PICARD.out.idxstats
+                //ch_markduplicates_multiqc   = BAM_MARKDUPLICATES_PICARD.out.metrics
+                //ch_versions = ch_versions.mix(BAM_MARKDUPLICATES_PICARD.out.versions)
             }
         } else {
                 ch_markduplicates_stats         = Channel.empty()
@@ -532,13 +532,14 @@ workflow CIRCDNA {
     //
     // MODULE: Pipeline reporting
     //
-    CUSTOM_DUMPSOFTWAREVERSIONS (
-        ch_versions.unique().collectFile(name: 'collated_versions.yml')
-    )
+   // CUSTOM_DUMPSOFTWAREVERSIONS (
+   //     ch_versions.unique().collectFile(name: 'collated_versions.yml')
+   // )
 
     //
     // MODULE: MultiQC
     //
+    /*
     if (!params.skip_multiqc) {
         workflow_summary = WorkflowCircdna.paramsSummaryMultiqc(workflow, summary_params)
         ch_workflow_summary = Channel.value(workflow_summary)
@@ -567,7 +568,8 @@ workflow CIRCDNA {
             ch_markduplicates_multiqc.collect{it[1]}.ifEmpty([]),
         )
         multiqc_report       = MULTIQC.out.report.toList()
-    }
+    }*/
+    
 }
 
 /*
