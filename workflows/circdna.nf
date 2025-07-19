@@ -333,9 +333,9 @@ workflow CIRCDNA {
                     ch_fasta_meta
             )
             ch_versions = ch_versions.mix(BAM_STATS_SAMTOOLS.out.versions)
-            ch_samtools_stats               = BAM_STATS_SAMTOOLS.out.stats
-            ch_samtools_flagstat            = BAM_STATS_SAMTOOLS.out.flagstat
-            ch_samtools_idxstats            = BAM_STATS_SAMTOOLS.out.idxstats
+            //ch_samtools_stats               = BAM_STATS_SAMTOOLS.out.stats
+            //ch_samtools_flagstat            = BAM_STATS_SAMTOOLS.out.flagstat
+            //ch_samtools_idxstats            = BAM_STATS_SAMTOOLS.out.idxstats
         }
         
 
