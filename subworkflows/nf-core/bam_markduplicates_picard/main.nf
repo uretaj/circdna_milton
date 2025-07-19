@@ -31,19 +31,19 @@ workflow BAM_MARKDUPLICATES_PICARD {
             if (bai) [ meta, bam, bai ]
             else [ meta, bam, csi ]
         }
-
+*/
     BAM_STATS_SAMTOOLS ( ch_bam_bai, ch_fasta )
-   //ch_versions = ch_versions.mix(BAM_STATS_SAMTOOLS.out.versions)
+    ch_versions = ch_versions.mix(BAM_STATS_SAMTOOLS.out.versions)
 
     emit:
     bam      = PICARD_MARKDUPLICATES.out.bam     // channel: [ val(meta), path(bam) ]
     metrics  = PICARD_MARKDUPLICATES.out.metrics // channel: [ val(meta), path(bam) ]
-    bai      = Channel.empty()//SAMTOOLS_INDEX.out.bai            // channel: [ val(meta), path(bai) ]
-    csi      = Channel.empty()//SAMTOOLS_INDEX.out.csi            // channel: [ val(meta), path(csi) ]
+    bai      = SAMTOOLS_INDEX.out.bai            // channel: [ val(meta), path(bai) ]
+    csi      = SAMTOOLS_INDEX.out.csi            // channel: [ val(meta), path(csi) ]
 
-    //stats    = BAM_STATS_SAMTOOLS.out.stats      // channel: [ val(meta), path(stats) ]
-    //flagstat = BAM_STATS_SAMTOOLS.out.flagstat   // channel: [ val(meta), path(flagstat) ]
-    //idxstats = BAM_STATS_SAMTOOLS.out.idxstats   // channel: [ val(meta), path(idxstats) ]
+    stats    = BAM_STATS_SAMTOOLS.out.stats      // channel: [ val(meta), path(stats) ]
+    flagstat = BAM_STATS_SAMTOOLS.out.flagstat   // channel: [ val(meta), path(flagstat) ]
+    idxstats = BAM_STATS_SAMTOOLS.out.idxstats   // channel: [ val(meta), path(idxstats) ]
 
-    //versions = ch_versions                       // channel: [ versions.yml ]
+    versions = ch_versions                       // channel: [ versions.yml ]
 }
