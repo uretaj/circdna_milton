@@ -31,7 +31,7 @@ workflow BAM_MARKDUPLICATES_PICARD {
             if (bai) [ meta, bam, bai ]
             else [ meta, bam, csi ]
         }
-*/
+
     BAM_STATS_SAMTOOLS ( ch_bam_bai, ch_fasta )
     ch_versions = ch_versions.mix(BAM_STATS_SAMTOOLS.out.versions)
 
