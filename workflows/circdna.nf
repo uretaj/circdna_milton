@@ -325,11 +325,11 @@ workflow CIRCDNA {
 
         // Stub run is not yet implemented into BAM_STATS_SAMTOOLS subworkflow -> Will be skipped when stub is active
         
-        /*
+        
         if (!workflow.stubRun) {
             BAM_STATS_SAMTOOLS (
                 ch_bam_sorted.join(ch_bam_sorted_bai).
-                    map { meta, bam, cnv, bai -> [meta, bam, cnv, bai] },
+                    map { meta, bam, cnv-> [meta, bam, cnv] },
                     ch_fasta_meta
             )
             ch_versions = ch_versions.mix(BAM_STATS_SAMTOOLS.out.versions)
@@ -337,7 +337,7 @@ workflow CIRCDNA {
             //ch_samtools_flagstat            = BAM_STATS_SAMTOOLS.out.flagstat
             //ch_samtools_idxstats            = BAM_STATS_SAMTOOLS.out.idxstats
         }
-        */
+        
 
         // PICARD MARK_DUPLICATES
         if (!params.skip_markduplicates) {
@@ -348,17 +348,17 @@ workflow CIRCDNA {
             )
 
             // MARK DUPLICATES IN BAM FILE
-            /*
+            
             BAM_MARKDUPLICATES_PICARD (
                 ch_bam_sorted,
                 ch_fasta_meta,
                 SAMTOOLS_FAIDX.out.fai.collect()
             )
-            */
+            
 
             // FILTER DUPLICATES IN BAM FILES USING SAMTOOLS VIEW
             if (!params.keep_duplicates) {
-               /*
+               
                 SAMTOOLS_VIEW_FILTER (
                     ch_bam_sorted, //#ch_bam_sorted.join(ch_bam_sorted_bai),
                     ch_fasta_meta,
@@ -367,7 +367,7 @@ workflow CIRCDNA {
                 ch_versions = ch_versions.mix(SAMTOOLS_VIEW_FILTER.out.versions)
                 
                 // SORT FILTERED BAM FILE
-               /*
+               
                 SAMTOOLS_SORT_FILTERED (
                     SAMTOOLS_VIEW_FILTER.out.bam
                 )
@@ -377,7 +377,7 @@ workflow CIRCDNA {
                 SAMTOOLS_INDEX_FILTERED (
                     SAMTOOLS_SORT_FILTERED.out.bam
                 )
-                */
+                
 
                 ch_bam_sorted = SAMTOOLS_SORT_FILTERED.out.bam
                 ch_bam_sorted_bai = SAMTOOLS_INDEX_FILTERED.out.bai
