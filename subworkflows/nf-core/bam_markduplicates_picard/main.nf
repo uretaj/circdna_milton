@@ -20,7 +20,7 @@ workflow BAM_MARKDUPLICATES_PICARD {
     PICARD_MARKDUPLICATES ( ch_bam, ch_fasta, ch_fai )
     ch_versions = ch_versions.mix(PICARD_MARKDUPLICATES.out.versions.first())
 
-    /*
+    
     SAMTOOLS_INDEX ( PICARD_MARKDUPLICATES.out.bam )
     ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions.first())
 
@@ -31,8 +31,8 @@ workflow BAM_MARKDUPLICATES_PICARD {
             if (bai) [ meta, bam, bai ]
             else [ meta, bam, csi ]
         }
-*/
-    //BAM_STATS_SAMTOOLS ( ch_bam_bai, ch_fasta )
+
+    BAM_STATS_SAMTOOLS ( ch_bam_bai, ch_fasta )
    //ch_versions = ch_versions.mix(BAM_STATS_SAMTOOLS.out.versions)
 
     emit:
