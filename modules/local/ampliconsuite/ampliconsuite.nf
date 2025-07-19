@@ -6,7 +6,7 @@ process AMPLICONSUITE {
     container 'nf-core/prepareaa:1.0.5'
 
     input:
-    tuple val(meta), path(bam), path(cnv)
+    tuple val(meta), path(bam), path(cnv), path(bai) 
     path(mosek_license_dir)
     path(aa_data_repo)
 
