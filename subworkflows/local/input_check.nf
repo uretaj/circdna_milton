@@ -63,7 +63,7 @@ def create_bam_channels(LinkedHashMap row) {
         exit 1, "ERROR: Please check input samplesheet -> BAM file does not exist!\n${row.bam}"
     }
     else {
-        array = [ meta, file(row.bam) ]
+        array = [ meta, file(row.bam), file(row.cnv)  ]
     }
     return array
 }
