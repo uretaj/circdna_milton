@@ -6,7 +6,7 @@ process AMPLICONSUITE {
     container 'nf-core/prepareaa:1.0.5'
 
     input:
-    tuple val(meta), path(bam),path(cnv)
+    tuple val(meta), path(bam), path(cnv)
     path(mosek_license_dir)
     path(aa_data_repo)
 
@@ -42,17 +42,14 @@ process AMPLICONSUITE {
     REF=${params.reference_build}
 
     AmpliconSuite-pipeline.py \\
-        $args \\
         -s $prefix \\
         -t $task.cpus \\
         --bam $bam \\
         --ref $ref \\
         --cnv_bed $cnv \\
-        --run_AA --run_AC \\
-        $args
+        --run_AA --run_AC 
 
     # Move Files to base work directory
-    find ${prefix}_cnvkit_output/ -type f -print0 | xargs -0 mv -t ./
     find ${prefix}_AA_results/ -type f -print0 | xargs -0 mv -t ./
     find ${prefix}_classification/ -type f -print0 | xargs -0 mv -t ./
 
