@@ -120,8 +120,8 @@ def check_samplesheet(file_in, file_out, input_format):
                         sample_mapping_dict[sample].append(sample_info)
 
         elif input_format == "BAM":
-            MIN_COLS = 3
-            HEADER = ["sample", "bam","cnv"]
+            MIN_COLS = 2
+            HEADER = ["sample", "bam"]
             header = [x.strip('"') for x in fin.readline().strip().split(",")]
             if header[: len(HEADER)] != HEADER:
                 print("ERROR: Please check samplesheet header -> {} != {}".format(",".join(header), ",".join(HEADER)))
@@ -147,7 +147,7 @@ def check_samplesheet(file_in, file_out, input_format):
                     )
 
                 ## Check sample name entries
-                sample, bam, cnv = lspl[: len(HEADER)]
+                sample, bam = lspl[: len(HEADER)]
                 sample = sample.replace(" ", "_")
                 if not sample:
                     print_error("Sample entry has not been specified!", "Line", line)
@@ -162,7 +162,7 @@ def check_samplesheet(file_in, file_out, input_format):
                             "Line",
                             line,
                         )
-                sample_info = ["1", bam, cnv]
+                sample_info = ["1", bam]
 
                 ## Create sample mapping dictionary = { sample: [ bam ] }
                 if sample not in sample_mapping_dict:
@@ -195,7 +195,7 @@ def check_samplesheet(file_in, file_out, input_format):
                         for idx, val in enumerate(sample_mapping_dict[sample]):
                             fout.write(",".join(["{}_T{}".format(sample, idx + 1)] + val) + "\n")
                 elif input_format == "BAM":
-                    fout.write(",".join(["sample", "idx", "bam", "cnv"]) + "\n")
+                    fout.write(",".join(["sample", "idx", "bam"]) + "\n")
                     for sample in sorted(sample_mapping_dict.keys()):
                         for idx, val in enumerate(sample_mapping_dict[sample]):
                             fout.write(",".join(["{}".format(sample)] + val) + "\n")

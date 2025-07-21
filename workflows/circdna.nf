@@ -257,8 +257,7 @@ workflow CIRCDNA {
             BWA_INDEX (
                 ch_fasta_meta
             )
-            ch_bwa_index = BWA_INDEX.out.index.dump(label: 'DEBUG BEFORE BAD OP')
-                        .map{ meta, index -> ["bwa_index", index] }.collect()
+            ch_bwa_index = BWA_INDEX.out.index.map{ meta, index -> ["bwa_index", index] }.collect()
             ch_versions = ch_versions.mix(BWA_INDEX.out.versions)
         }
 
@@ -324,50 +323,43 @@ workflow CIRCDNA {
         ch_fasta = ch_fasta_meta.map{ meta, index -> [index] }.collect()
 
         // Stub run is not yet implemented into BAM_STATS_SAMTOOLS subworkflow -> Will be skipped when stub is active
-        
-        
         if (!workflow.stubRun) {
-            //BAM_STATS_SAMTOOLS (
+            BAM_STATS_SAMTOOLS (
                 ch_bam_sorted.join(ch_bam_sorted_bai).
-                    map { meta, bam, cnv-> [meta, bam, cnv] },
+                    map { meta, bam, bai -> [meta, bam, bai] },
                     ch_fasta_meta
-            //)
+            )
             ch_versions = ch_versions.mix(BAM_STATS_SAMTOOLS.out.versions)
-            //ch_samtools_stats               = BAM_STATS_SAMTOOLS.out.stats
-            //ch_samtools_flagstat            = BAM_STATS_SAMTOOLS.out.flagstat
-            //ch_samtools_idxstats            = BAM_STATS_SAMTOOLS.out.idxstats
+            ch_samtools_stats               = BAM_STATS_SAMTOOLS.out.stats
+            ch_samtools_flagstat            = BAM_STATS_SAMTOOLS.out.flagstat
+            ch_samtools_idxstats            = BAM_STATS_SAMTOOLS.out.idxstats
         }
-        
 
         // PICARD MARK_DUPLICATES
         if (!params.skip_markduplicates) {
-            // Index Fasta File for 
+            // Index Fasta File for Markduplicates
             SAMTOOLS_FAIDX (
                 ch_fasta_meta,
                 [[], []]
             )
 
             // MARK DUPLICATES IN BAM FILE
-            
             BAM_MARKDUPLICATES_PICARD (
                 ch_bam_sorted,
                 ch_fasta_meta,
                 SAMTOOLS_FAIDX.out.fai.collect()
             )
-            
 
             // FILTER DUPLICATES IN BAM FILES USING SAMTOOLS VIEW
             if (!params.keep_duplicates) {
-               
                 SAMTOOLS_VIEW_FILTER (
-                    ch_bam_sorted, //#ch_bam_sorted.join(ch_bam_sorted_bai),
+                    ch_bam_sorted.join(ch_bam_sorted_bai),
                     ch_fasta_meta,
                     []
                 )
                 ch_versions = ch_versions.mix(SAMTOOLS_VIEW_FILTER.out.versions)
-                
+
                 // SORT FILTERED BAM FILE
-               
                 SAMTOOLS_SORT_FILTERED (
                     SAMTOOLS_VIEW_FILTER.out.bam
                 )
@@ -377,20 +369,19 @@ workflow CIRCDNA {
                 SAMTOOLS_INDEX_FILTERED (
                     SAMTOOLS_SORT_FILTERED.out.bam
                 )
-                
 
                 ch_bam_sorted = SAMTOOLS_SORT_FILTERED.out.bam
                 ch_bam_sorted_bai = SAMTOOLS_INDEX_FILTERED.out.bai
                 ch_versions = ch_versions.mix(SAMTOOLS_INDEX_FILTERED.out.versions)
             }
             else {
-                //ch_bam_sorted               = BAM_MARKDUPLICATES_PICARD.out.bam
-                //ch_bam_sorted_bai           = BAM_MARKDUPLICATES_PICARD.out.bai
-                //ch_markduplicates_stats     = BAM_MARKDUPLICATES_PICARD.out.stats
-                //ch_markduplicates_flagstat  = BAM_MARKDUPLICATES_PICARD.out.flagstat
-                //ch_markduplicates_idxstats  = BAM_MARKDUPLICATES_PICARD.out.idxstats
-                //ch_markduplicates_multiqc   = BAM_MARKDUPLICATES_PICARD.out.metrics
-                //ch_versions = ch_versions.mix(BAM_MARKDUPLICATES_PICARD.out.versions)
+                ch_bam_sorted               = BAM_MARKDUPLICATES_PICARD.out.bam
+                ch_bam_sorted_bai           = BAM_MARKDUPLICATES_PICARD.out.bai
+                ch_markduplicates_stats     = BAM_MARKDUPLICATES_PICARD.out.stats
+                ch_markduplicates_flagstat  = BAM_MARKDUPLICATES_PICARD.out.flagstat
+                ch_markduplicates_idxstats  = BAM_MARKDUPLICATES_PICARD.out.idxstats
+                ch_markduplicates_multiqc   = BAM_MARKDUPLICATES_PICARD.out.metrics
+                ch_versions = ch_versions.mix(BAM_MARKDUPLICATES_PICARD.out.versions)
             }
         } else {
                 ch_markduplicates_stats         = Channel.empty()
@@ -402,7 +393,7 @@ workflow CIRCDNA {
 
     if (run_ampliconarchitect) {
         AMPLICONSUITE (
-            ch_bam_sorted,           
+            ch_bam_sorted,
             file(params.mosek_license_dir),
             file(params.aa_data_repo)
         )
@@ -537,14 +528,13 @@ workflow CIRCDNA {
     //
     // MODULE: Pipeline reporting
     //
-   // CUSTOM_DUMPSOFTWAREVERSIONS (
-   //     ch_versions.unique().collectFile(name: 'collated_versions.yml')
-   // )
+    CUSTOM_DUMPSOFTWAREVERSIONS (
+        ch_versions.unique().collectFile(name: 'collated_versions.yml')
+    )
 
     //
     // MODULE: MultiQC
     //
-    /*
     if (!params.skip_multiqc) {
         workflow_summary = WorkflowCircdna.paramsSummaryMultiqc(workflow, summary_params)
         ch_workflow_summary = Channel.value(workflow_summary)
@@ -573,8 +563,7 @@ workflow CIRCDNA {
             ch_markduplicates_multiqc.collect{it[1]}.ifEmpty([]),
         )
         multiqc_report       = MULTIQC.out.report.toList()
-    }*/
-    
+    }
 }
 
 /*
