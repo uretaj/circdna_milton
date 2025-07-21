@@ -8,12 +8,12 @@ process SAMTOOLS_VIEW {
         'biocontainers/samtools:1.18--h50ea8bc_1' }"
 
     input:
-    tuple val(meta), path(input), path(index)
+    tuple val(meta), path(input), path(cnv), path(index)
     tuple val(meta2), path(fasta)
     path qname
 
     output:
-    tuple val(meta), path("*.bam"),  emit: bam,     optional: true
+    tuple val(meta), path("*.bam"), path(cnv), emit: bam,     optional: true
     tuple val(meta), path("*.cram"), emit: cram,    optional: true
     tuple val(meta), path("*.sam"),  emit: sam,     optional: true
     tuple val(meta), path("*.bai"),  emit: bai,     optional: true
