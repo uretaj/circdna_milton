@@ -147,7 +147,7 @@ def check_samplesheet(file_in, file_out, input_format):
                     )
 
                 ## Check sample name entries
-                sample, bam = lspl[: len(HEADER)]
+                sample, bam, cnv = lspl[: len(HEADER)]
                 sample = sample.replace(" ", "_")
                 if not sample:
                     print_error("Sample entry has not been specified!", "Line", line)
@@ -195,7 +195,7 @@ def check_samplesheet(file_in, file_out, input_format):
                         for idx, val in enumerate(sample_mapping_dict[sample]):
                             fout.write(",".join(["{}_T{}".format(sample, idx + 1)] + val) + "\n")
                 elif input_format == "BAM":
-                    fout.write(",".join(["sample", "idx", "bam"]) + "\n")
+                    fout.write(",".join(["sample", "idx", "bam","cnv"]) + "\n")
                     for sample in sorted(sample_mapping_dict.keys()):
                         for idx, val in enumerate(sample_mapping_dict[sample]):
                             fout.write(",".join(["{}".format(sample)] + val) + "\n")
