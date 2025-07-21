@@ -52,7 +52,7 @@ def create_fastq_channels(LinkedHashMap row) {
     return array
 }
 
-// Function to get list of [ meta, bam, cnv ]
+// Function to get list of [ meta, bam ]
 def create_bam_channels(LinkedHashMap row) {
     def meta = [:]
     meta.id             = row.sample
@@ -63,8 +63,7 @@ def create_bam_channels(LinkedHashMap row) {
         exit 1, "ERROR: Please check input samplesheet -> BAM file does not exist!\n${row.bam}"
     }
     else {
-        array = [ meta, file(row.bam), file(row.cnv)  ]
-        
+        array = [ meta, file(row.bam) ]
     }
     return array
 }
