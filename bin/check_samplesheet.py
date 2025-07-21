@@ -121,7 +121,7 @@ def check_samplesheet(file_in, file_out, input_format):
 
         elif input_format == "BAM":
             MIN_COLS = 2
-            HEADER = ["sample", "bam"]
+            HEADER = ["sample", "bam", "cnv"]
             header = [x.strip('"') for x in fin.readline().strip().split(",")]
             if header[: len(HEADER)] != HEADER:
                 print("ERROR: Please check samplesheet header -> {} != {}".format(",".join(header), ",".join(HEADER)))
