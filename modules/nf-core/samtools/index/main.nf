@@ -8,7 +8,7 @@ process SAMTOOLS_INDEX {
         'biocontainers/samtools:1.18--h50ea8bc_1' }"
 
     input:
-    tuple val(meta), path(input),  path(cnv)
+    tuple val(meta), path(input)
 
     output:
     tuple val(meta), path("*.bai") , optional:true, emit: bai
@@ -24,7 +24,8 @@ process SAMTOOLS_INDEX {
     """
     samtools \\
         index \\
-        -@ ${task.cpus-1} $args \\
+        -@ ${task.cpus-1} \\
+        $args \\
         $input
 
     cat <<-END_VERSIONS > versions.yml
