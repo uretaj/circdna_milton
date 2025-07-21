@@ -162,7 +162,7 @@ def check_samplesheet(file_in, file_out, input_format):
                             "Line",
                             line,
                         )
-                sample_info = ["1", bam]
+                sample_info = ["1", bam, cnv]
 
                 ## Create sample mapping dictionary = { sample: [ bam ] }
                 if sample not in sample_mapping_dict:
