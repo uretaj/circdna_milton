@@ -8,12 +8,12 @@ process PICARD_MARKDUPLICATES {
         'biocontainers/picard:3.1.1--hdfd78af_0' }"
 
     input:
-    tuple val(meta), path(bam)
+    tuple val(meta), path(bam), path(cnv)
     tuple val(meta2), path(fasta)
     tuple val(meta3), path(fai)
 
     output:
-    tuple val(meta), path("*.bam")        , emit: bam
+    tuple val(meta), path("*.bam"), path(cnv)        , emit: bam
     tuple val(meta), path("*.bai")        , optional:true, emit: bai
     tuple val(meta), path("*.metrics.txt"), emit: metrics
     path  "versions.yml"                  , emit: versions
