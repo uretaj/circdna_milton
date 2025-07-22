@@ -52,7 +52,6 @@ process AMPLICONSUITE {
         $args
 
     # Move Files to base work directory
-    find ${prefix}_cnvkit_output/ -type f -print0 | xargs -0 mv -t ./
     find ${prefix}_AA_results/ -type f -print0 | xargs -0 mv -t ./
     find ${prefix}_classification/ -type f -print0 | xargs -0 mv -t ./
 
