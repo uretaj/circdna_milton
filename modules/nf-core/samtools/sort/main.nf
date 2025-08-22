@@ -29,8 +29,6 @@ process SAMTOOLS_SORT {
         -o ${prefix}.bam \\
         -T $prefix \\
         $bam
-    cp $cnv ${prefix}_cnv.bed
-    rm $cnv
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         samtools: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//')
