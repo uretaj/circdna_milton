@@ -11,7 +11,7 @@ process SAMTOOLS_SORT {
     tuple val(meta), path(bam), path(cnv)
 
     output:
-    tuple val(meta), path("*.bam"), path(cnv), emit: bam
+    tuple val(meta), path("*.bam"), path("*.bed"), emit: bam
     tuple val(meta), path("*.csi"), emit: csi, optional: true
     path  "versions.yml"          , emit: versions
 
@@ -29,7 +29,8 @@ process SAMTOOLS_SORT {
         -o ${prefix}.bam \\
         -T $prefix \\
         $bam
-
+    cp $cnv "${prefix}_cnv.bed"
+    rm $cnv
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         samtools: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//')
