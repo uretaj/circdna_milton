@@ -10,7 +10,7 @@ process CIRCEXPLORER2_PARSE {
     }
 
     input:
-    tuple val(meta), path(bam), path(bai)
+    tuple val(meta), path(bam), path(cnv), path(bai)
 
     output:
     tuple val(meta), path("*.bed")  , emit: bed

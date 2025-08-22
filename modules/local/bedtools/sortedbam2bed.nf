@@ -8,7 +8,7 @@ process BEDTOOLS_SORTEDBAM2BED {
         'quay.io/biocontainers/bedtools:2.30.0--h7d7f7ad_2' }"
 
     input:
-    tuple val(meta), path(sorted_bam), path(sorted_bai)
+    tuple val(meta), path(sorted_bam), path(cnv), path(sorted_bai)
 
     output:
     tuple val(meta), path("*.concordant.txt"), emit: conc_txt
