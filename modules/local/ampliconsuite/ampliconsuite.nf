@@ -7,6 +7,7 @@ process AMPLICONSUITE {
 
     input:
     tuple val(meta), path(bam), path(cnv)
+    tuple val(meta), path(cnv)
     path(mosek_license_dir)
     path(aa_data_repo)
 
