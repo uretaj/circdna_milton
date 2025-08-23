@@ -8,7 +8,7 @@ process SAMBLASTER {
         'quay.io/biocontainers/mulled-v2-19fa9f1a5c3966b63a24166365e81da35738c5ab:ba4a02b56f3e524a6e006bcd99fe8cc1d7fe09eb-0' }"
 
     input:
-    tuple val(meta), path(bam), path(cnv)
+    tuple val(meta), path(bam)
 
     output:
     tuple val(meta), path("*.split.bam"), emit: split_bam
