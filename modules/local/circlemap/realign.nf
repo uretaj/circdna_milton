@@ -8,7 +8,7 @@ process CIRCLEMAP_REALIGN {
         'quay.io/biocontainers/circle-map:1.1.4--pyh5e36f6f_2' }"
 
     input:
-    tuple val(meta), path(re_bam) stageAs: { f -> "${meta}_${f.simpleName}.bam" }, path(re_bai), path(qname), path(sbam)  stageAs: { f -> "${meta}_${f.simpleName}.bam" }, path(sbai)
+    tuple val(meta), path(re_bam), path(re_bai), path(qname), path(sbam), path(sbai)
     path fasta
 
     output:
