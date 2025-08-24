@@ -8,10 +8,10 @@ process CIRCLEMAP_REPEATS {
         'quay.io/biocontainers/circle-map:1.1.4--pyh5e36f6f_2' }"
 
     input:
-    tuple val(meta), path(bam), path(bai)
+    tuple val(meta), path(bam), path(cnv), path(bai)
 
     output:
-    tuple val(meta), path("*.bed"), emit: bed
+    tuple val(meta), path("*coordinates.bed"), emit: bed
     path "versions.yml"            , emit: versions
 
     script:
