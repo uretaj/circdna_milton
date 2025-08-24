@@ -8,11 +8,11 @@ process CIRCLEMAP_REALIGN {
         'quay.io/biocontainers/circle-map:1.1.4--pyh5e36f6f_2' }"
 
     input:
-    tuple val(meta), path(re_bam), path(re_bai), path(qname), path(sbam), path(sbai)
+    tuple val(meta), path(re_bam,stageAs: "?/*"), path(re_bai), path(qname), path(sbam,stageAs: "?/*"), path(sbai)
     path fasta
 
     output:
-    tuple val(meta), path("*.bed"), emit: bed
+    tuple val(meta), path("*coordinates.bed"), emit: bed
     path "versions.yml"           , emit: versions
 
     script:
