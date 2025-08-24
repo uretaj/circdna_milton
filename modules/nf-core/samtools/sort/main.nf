@@ -8,11 +8,11 @@ process SAMTOOLS_SORT {
         'biocontainers/samtools:1.18--h50ea8bc_1' }"
 
     input:
-    tuple val(meta), path(bam), path(cnv)
+    tuple val(meta), path(bam), path(cnv) optional: true
 
     output:
     tuple val(meta), path("*.bam"), emit: bam
-    tuple val(meta),  path(cnv), emit: cnv, optional: true
+    tuple val(meta), path(cnv), emit: cnv, optional: true
     tuple val(meta), path("*.csi"), emit: csi, optional: true
     path  "versions.yml"          , emit: versions
 
