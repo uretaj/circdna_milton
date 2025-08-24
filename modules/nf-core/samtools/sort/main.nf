@@ -13,7 +13,7 @@ process SAMTOOLS_SORT {
     output:
     tuple val(meta), path("*.bam"), emit: bam
     tuple val(meta), path("*.bed"), emit: cnv
-    tuple val(meta), path("*.csi"), emit: csi, optional: true
+    tuple val(meta), path("*.csi"), emit: csi
     path  "versions.yml"          , emit: versions
 
     when:
