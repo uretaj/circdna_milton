@@ -8,7 +8,7 @@ process CIRCLEMAP_READEXTRACTOR {
         'quay.io/biocontainers/circle-map:1.1.4--pyh5e36f6f_2' }"
 
     input:
-    tuple val(meta), path(qname_bam)
+    tuple val(meta), path(qname_bam), path(cnv)
 
     output:
     tuple val(meta), path("*.circular_read_candidates.bam"), emit: bam
